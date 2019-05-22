@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <form class="needs-validation" id="main-form" action="/register" method="post" novalidate>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please enter your name
+            </div>
+            <div class="invalid-username">
+               
+            </div>
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="password" placeholder="Password" type="password" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please enter your password
+            </div>
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="confirmation" placeholder="Confirm password" type="password" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please enter your password again
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+        
+    </form>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+          'use strict';
+          window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+              form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+              }, false);
+            });
+          }, false);
+        })();
+        
+        // https://stackoverflow.com/questions/1164132/how-to-reenable-event-preventdefault
+        function preventDefault(e) {
+            e.preventDefault();
+        }
+        let input = document.querySelector("input[name='username']");
+        input.onkeyup = function() {
+            document.querySelector('.invalid-username').innerHTML = ''
+            $.get('/check?username=' + input.value, function(data) {
+                $("form").unbind("submit", preventDefault);
+                if (data == "true") {
+                    document.querySelector('.invalid-username').innerHTML = "This username already taken";
+                    $("form").bind("submit", preventDefault);
+                }
+                
+            });
+        };
+
+    </script>
+    
+{% endblock %}
