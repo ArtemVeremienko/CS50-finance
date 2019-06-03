@@ -115,8 +115,8 @@ def check():
     usernames = db.execute("SELECT username FROM users")
     for username in usernames:
         if username['username'] == input_username:
-            return jsonify("true")
-    return jsonify("false")
+            return jsonify(True)
+    return jsonify(False)
 
 
 @app.route("/history")
