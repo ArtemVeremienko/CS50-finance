@@ -68,7 +68,7 @@
             document.querySelector('.invalid-username').innerHTML = ''
             $.get('/check?username=' + input.value, function(data) {
                 $("form").unbind("submit", preventDefault);
-                if (data == "true") {
+                if (data === true) {
                     document.querySelector('.invalid-username').innerHTML = "This username already taken";
                     $("form").bind("submit", preventDefault);
                 }
